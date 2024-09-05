@@ -1,21 +1,25 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage('Build'){
-            steps{
-                sh 'cd /var/lib/jenkins/workspace/task'
-                sh 'docker build -t healet:latest .'
-                sh 'docker tag healet:latest pritidevops/healet:latest'
-            }
-        }
-        stage('Push to DockerHub'){
-            steps{
-                withDockerRegistry([ credentialsId: "Dockerhub", url: "" ]) 
-                {
-                sh 'docker push pritidevops/healet:latest'
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    sh 'cd /var/lib/jenkins/workspace/task'
+                    sh 'docker build -t healet:latest .'
+                    sh 'docker tag healet:latest pritidevops/healet:latest'
                 }
             }
         }
+
+        stage('Push to DockerHub') {
+            steps {
+                withDockerRegistry([credentialsId: 'Dockerhub', url: '']) {
+                    sh 'docker push pritidevops/healet:latest'
+                }
+            }
+        }
+
         stage('Prepare Deployment Package') {
             steps {
                 script {
@@ -28,8 +32,8 @@ pipeline{
                     zip -r deployment-package.zip deployment/
                     '''
                     // Upload the deployment package to S3
-                    withAWS(credentials: 'aws keys', region: 'eu-north-1'){
-                        sh "aws s3 cp deployment-package.zip s3://pythonfordevops/deployment-package.zip"
+                    withAWS(credentials: 'aws keys', region: 'eu-north-1') {
+                        sh 'aws s3 cp deployment-package.zip s3://pythonfordevops/deployment-package.zip'
                     }
                 }
             }
@@ -38,8 +42,7 @@ pipeline{
         stage('Deploy to AWS CodeDeploy') {
             steps {
                 script {
-                    // Use the Publish Over SSH plugin to copy the deployment package to the CodeDeploy server
-                    sshPublisher(publishers: [sshPublisher(
+                    sshPublisher(publishers: [sshPublisherDesc(
                         configName: 'codedeploy-agent',
                         transfers: [sshTransfer(
                             sourceFiles: 'deployment-package.zip',
@@ -51,8 +54,8 @@ pipeline{
                         usePromotionTimestamp: false,
                         verbose: true
                     )])
-            }      
-        }
+                }
+            }
         }
     }
 }
