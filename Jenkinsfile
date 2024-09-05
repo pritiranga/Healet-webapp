@@ -39,15 +39,17 @@ pipeline{
             steps {
                 script {
                     // Trigger AWS CodeDeploy deployment
-                    sh """
-                    aws deploy create-deployment \
-                    --application-name "a-task" \
-                    --deployment-group-name "a-task-grp" \
-                    --s3-location bucket=pythonfordevops,key=deployment-package.zip,bundleType=zip \
-                    --deployment-config-name CodeDeployDefault.AllAtOnce
-                    """
+                    withAWS(credentials: 'aws keys', region: 'eu-north-1'){
+                        sh """
+                        aws deploy create-deployment \
+                        --application-name "a-task" \
+                        --deployment-group-name "a-task-grp" \
+                        --s3-location bucket=pythonfordevops,key=deployment-package.zip,bundleType=zip \
+                        --deployment-config-name CodeDeployDefault.AllAtOnce
+                        """
+                    }
                 }
-            }
+            }      
         }
         }
     
