@@ -10,8 +10,8 @@ pipeline{
         stage('Build'){
             steps{
                 sh 'cd /var/lib/jenkins/workspace/task'
-                sh 'docker build -t healet:latest .'
-                sh 'docker tag healet:latest pritidevops/healet:latest'
+                sh 'sudo docker build -t healet:latest .'
+                sh 'sudo docker tag healet:latest pritidevops/healet:latest'
             }
         }
         }
