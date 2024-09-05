@@ -14,6 +14,14 @@ pipeline{
                 sh 'docker tag healet:latest pritidevops/healet:latest'
             }
         }
+        stage('Push to DockerHub'){
+            steps{
+                withDockerRegistry([ credentialsId: "Dockerhub", url: "" ]) 
+                {
+                sh 'docker push pritidevops/healet:latest'
+                }
+            }
+        }
         }
     
 }
