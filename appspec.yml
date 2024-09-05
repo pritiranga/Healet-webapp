@@ -4,7 +4,14 @@ files:
   - source: /
     destination: /var/www/html
 hooks:
-  AfterInstall:
-    - location: scripts/after_install.sh
+  BeforeInstall:
+    - location: scripts/stop.sh
       timeout: 300
       runas: root
+
+  AfterInstall:
+    - location: scripts/start.sh
+      timeout: 300
+      runas: root
+
+  

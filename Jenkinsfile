@@ -16,6 +16,37 @@ pipeline{
                 }
             }
         }
+        stage('Prepare Deployment Package') {
+            steps {
+                script {
+                    // Create deployment directory and copy appspec.yml and scripts
+                    sh '''
+                    mkdir -p deployment
+                    cp appspec.yml deployment/
+                    cp scripts/stop_container.sh deployment/
+                    cp scripts/start_container.sh deployment/
+                    zip -r deployment-package.zip deployment/
+                    '''
+                    // Upload the deployment package to S3
+                    sh "aws s3 cp deployment-package.zip s3://pythonfordevops/deployment-package.zip"
+                }
+            }
+        }
+
+        stage('Deploy to AWS CodeDeploy') {
+            steps {
+                script {
+                    // Trigger AWS CodeDeploy deployment
+                    sh """
+                    aws deploy create-deployment \
+                    --application-name "a-task" \
+                    --deployment-group-name "a-task-grp" \
+                    --s3-location bucket=pythonfordevops,key=deployment-package.zip,bundleType=zip \
+                    --deployment-config-name CodeDeployDefault.AllAtOnce
+                    """
+                }
+            }
+        }
         }
     
 }
