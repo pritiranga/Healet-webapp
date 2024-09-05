@@ -28,7 +28,9 @@ pipeline{
                     zip -r deployment-package.zip deployment/
                     '''
                     // Upload the deployment package to S3
-                    sh "aws s3 cp deployment-package.zip s3://pythonfordevops/deployment-package.zip"
+                    withAWS(credentials: 'aws keys', region: 'eu-north-1'){
+                        sh "aws s3 cp deployment-package.zip s3://pythonfordevops/deployment-package.zip"
+                    }
                 }
             }
         }
