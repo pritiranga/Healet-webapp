@@ -38,19 +38,20 @@ pipeline{
         stage('Deploy to AWS CodeDeploy') {
             steps {
                 script {
-                    // Trigger AWS CodeDeploy deployment
-                    withAWS(credentials: 'aws keys', region: 'eu-north-1'){
-                        sh """
-                        aws deploy create-deployment \
-                        --application-name "a-task" \
-                        --deployment-group-name "a-task-grp" \
-                        --s3-location bucket=pythonfordevops,key=deployment-package.zip,bundleType=zip \
-                        --deployment-config-name CodeDeployDefault.AllAtOnce
-                        """
-                    }
-                }
+                    // Use the Publish Over SSH plugin to copy the deployment package to the CodeDeploy server
+                    sshPublisher(publishers: [sshPublisher(
+                        configName: 'codedeploy-agent',
+                        transfers: [sshTransfer(
+                            sourceFiles: 'deployment-package.zip',
+                            remoteDirectory: '/opt/codedeploy',
+                            removePrefix: '',
+                            excludeFiles: '',
+                            execCommand: 'aws deploy create-deployment --application-name "a-task" --deployment-group-name "a-task-grp" --s3-location bucket=pythonfordevops,key=deployment-package.zip,bundleType=zip --deployment-config-name CodeDeployDefault.AllAtOnce'
+                        )],
+                        usePromotionTimestamp: false,
+                        verbose: true
+                    )])
             }      
         }
         }
-    
 }
