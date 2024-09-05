@@ -23,8 +23,8 @@ pipeline{
                     sh '''
                     mkdir -p deployment
                     cp appspec.yml deployment/
-                    cp scripts/stop_container.sh deployment/
-                    cp scripts/start_container.sh deployment/
+                    cp scripts/stop.sh deployment/
+                    cp scripts/start.sh deployment/
                     zip -r deployment-package.zip deployment/
                     '''
                     // Upload the deployment package to S3
