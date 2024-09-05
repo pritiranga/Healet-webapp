@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage("Checkout"){
             steps{
-                git clone https://github.com/pritiranga/Healet-webapp.git
+                git clone "https://github.com/pritiranga/Healet-webapp.git"
             }
         }
         stage('Build'){
