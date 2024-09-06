@@ -5,12 +5,12 @@ files:
     destination: /var/www/html
 hooks:
   BeforeInstall:
-    - location: deployment/scripts/stop.sh
+    - location: scripts/stop.sh
       timeout: 300
       runas: root
 
   AfterInstall:
-    - location: deployment/scripts/start.sh
+    - location: scripts/start.sh
       timeout: 300
       runas: root
 
