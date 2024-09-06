@@ -23,6 +23,7 @@ pipeline {
         stage('Prepare Deployment Package') {
             steps {
                 script {
+                    sh 'rm -rf deployment'
                     // Create the deployment directory and scripts subdirectory
                     sh '''
                     mkdir -p deployment/scripts
