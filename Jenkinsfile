@@ -25,11 +25,21 @@ pipeline {
                 script {
                     // Create deployment directory and copy appspec.yml and scripts
                     sh '''
+                script {
+                    // Create the deployment directory and scripts subdirectory
+                    sh '''
                     mkdir -p deployment/scripts
                     cp appspec.yml deployment/
                     cp scripts/stop.sh deployment/scripts/
                     cp scripts/start.sh deployment/scripts/
+                    chmod +x deployment/scripts/stop.sh
+                    chmod +x deployment/scripts/start.sh
+                    #  the deployment directory structure
+                    echo "Deployment directory structure:"
+                    ls -R deployment
+                    # a ZIP file from the deployment directory
                     zip -r deployment-package.zip deployment/
+                    '''
                     '''
                     // Upload the deployment package to S3
                     withAWS(credentials: 'aws keys', region: 'eu-north-1') {
