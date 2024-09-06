@@ -25,7 +25,7 @@ pipeline {
                 script {
                     // Create deployment directory and copy appspec.yml and scripts
                     sh '''
-                    mkdir -p deployment
+                    mkdir -p deployment/scripts
                     cp appspec.yml deployment/
                     cp scripts/stop.sh deployment/scripts/
                     cp scripts/start.sh deployment/scripts/
