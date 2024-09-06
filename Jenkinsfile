@@ -26,11 +26,8 @@ pipeline {
                     // Create deployment directory and copy appspec.yml and scripts
                     sh '''
                     mkdir -p deployment
-                    chmod +x scripts/stop.sh
-                    chmod +x scripts/start.sh
                     cp appspec.yml deployment/
-                    cp scripts/stop.sh deployment/
-                    cp scripts/start.sh deployment/
+                    cp /scripts deployment/
                     zip -r deployment-package.zip deployment/
                     '''
                     // Upload the deployment package to S3
