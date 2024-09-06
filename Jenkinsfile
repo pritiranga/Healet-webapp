@@ -55,7 +55,7 @@ pipeline {
                             remoteDirectory: '/opt/codedeploy',
                             removePrefix: '',
                             excludeFiles: '',
-                            execCommand: 'aws deploy create-deployment --application-name "a-task" --deployment-group-name "a-task-grp" --s3-location bucket=pythonfordevops,key=deployment-package.zip,bundleType=zip --deployment-config-name CodeDeployDefault.AllAtOnce'
+                            execCommand: 'aws deploy create-deployment --application-name "a-task" --deployment-group-name "a-dep-grp" --s3-location bucket=pythonfordevops,key=deployment-package.zip,bundleType=zip --deployment-config-name CodeDeployDefault.AllAtOnce'
                         )],
                         usePromotionTimestamp: false,
                         verbose: true
