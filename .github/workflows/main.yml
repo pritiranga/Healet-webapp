@@ -20,6 +20,6 @@ jobs:
                 password: ${{ secrets.DOCKER_PASSWORD }}
 
             - name: Building Docker Image
-              uses: ls
+              run: ls
 
             
