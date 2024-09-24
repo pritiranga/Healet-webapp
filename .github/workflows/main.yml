@@ -23,9 +23,9 @@ jobs:
               run: docker build -t healet:latest . 
 
             - name: Tagging Docker Images
-              run: docker tag healet:latest $((DOCKER_USERNAME))/healet:latest
+              run: docker tag healet:latest $(( secrets.DOCKER_USERNAME ))/healet:latest
 
             - name: Pushing Docker images to DockerHub
-              run: docker push $((DOCKER_USERNAME))/healet:latest
+              run: docker push $(( secrets.DOCKER_USERNAME ))/healet:latest
 
             
