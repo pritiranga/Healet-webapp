@@ -20,6 +20,6 @@ jobs:
                 password: ${{ secrets.DOCKER_PASSWORD }}
 
             - name: Building Docker Image
-              run: ls
+              run: docker build -t healet:latest . 
 
             
