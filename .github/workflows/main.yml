@@ -20,6 +20,6 @@ jobs:
                 password: ${{ secrets.DOCKER_PASSWORD }}
 
             - name: Building Docker Image
-              uses: docker build -t healet:latest . --file Dockerfile
+              uses: ls
 
             
