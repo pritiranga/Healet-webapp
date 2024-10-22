@@ -1,0 +1,39 @@
+pipeline:
+  name: webapp
+  identifier: webapp
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github
+        repoName: Healet-webapp
+        build: <+input>
+  stages:
+    - stage:
+        name: Checkout code
+        identifier: Checkout_code
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: GitClone
+                  name: Cloning code
+                  identifier: Cloning_code
+                  spec:
+                    connectorRef: github
+                    repoName: Healet-webapp
+                    build:
+                      type: branch
+                      spec:
+                        branch: harness
