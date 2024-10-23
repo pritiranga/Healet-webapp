@@ -30,6 +30,25 @@ pipeline:
                     tags:
                       - "1"
                     caching: true
+              - step:
+                  type: Sonarqube
+                  name: Sonarqube
+                  identifier: Sonarqube
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: repository
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                    auth:
+                      access_token: b09b6d0ffc193609b2cd5fd0009489d04bc329ba
+                      domain: http://192.168.6.99:9000
+                      ssl: false
+                    tool:
+                      project_key: harness
   properties:
     ci:
       codebase:
