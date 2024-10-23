@@ -25,7 +25,7 @@ pipeline:
                   name: "Build and push to dockerhub "
                   identifier: Build_and_push_to_dockerhub
                   spec:
-                    connectorRef: account.harnessImage
+                    connectorRef: dockerhub
                     repo: pritiranga/harness-webapp
                     tags:
                       - "1"
