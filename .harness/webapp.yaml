@@ -26,7 +26,7 @@ pipeline:
                   identifier: Build_and_push_to_dockerhub
                   spec:
                     connectorRef: dockerhub
-                    repo: pritiranga/harness-webapp
+                    repo: pritidevops/harness-webapp
                     tags:
                       - "1"
                     caching: true
