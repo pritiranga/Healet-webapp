@@ -1,0 +1,30 @@
+pipeline:
+  name: webapp
+  identifier: webapp
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Checkout Code
+        identifier: Checkout_Code
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: clone code
+                  identifier: clone_code
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: git clone https://github.com/pritiranga/Healet-webapp.git
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
