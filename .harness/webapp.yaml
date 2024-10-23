@@ -28,3 +28,34 @@ pipeline:
                     outputVariables: []
                   timeout: 10m
         tags: {}
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: "Build and push to dockerhub "
+                  identifier: Build_and_push_to_dockerhub
+                  spec:
+                    connectorRef: account.harnessImage
+                    repo: pritiranga/harness-webapp
+                    tags:
+                      - "1"
+                    caching: true
+  properties:
+    ci:
+      codebase:
+        connectorRef: github
+        repoName: Healet-webapp
+        build: <+input>
