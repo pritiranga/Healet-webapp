@@ -1,0 +1,45 @@
+pipeline:
+  name: healet-webapp
+  identifier: healetwebapp
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github
+        repoName: Healet-webapp
+        build: <+input>
+  stages:
+    - stage:
+        name: sonar
+        identifier: sonar
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Sonarqube
+                  name: Sonarqube
+                  identifier: Sonarqube
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: repository
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                    auth:
+                      access_token: sqp_585e41ba240422e3aef6e8ce9ff44ef5212a91ba
+                      domain: http://13.50.246.10:9000
+                      ssl: true
