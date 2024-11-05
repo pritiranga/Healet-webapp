@@ -56,6 +56,8 @@ pipeline:
                       log:
                         level: info
                     auth:
-                      access_token: sqp_585e41ba240422e3aef6e8ce9ff44ef5212a91ba
+                      access_token: sqp_58f42bcc49835ce2389a844cef6ae0f64ee24729
                       domain: http://13.50.246.10:9000
                       ssl: true
+                    tool:
+                      project_key: harness-webapp
