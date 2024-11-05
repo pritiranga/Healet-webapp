@@ -28,7 +28,7 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Run_1
+                  name: Passing Workspace variable to sonarqube
                   identifier: Run_1
                   spec:
                     shell: Sh
@@ -61,6 +61,15 @@ pipeline:
                       ssl: true
                     tool:
                       project_key: harness-webapp
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: Build  And Push to DockerRegistry
+                  identifier: Build_And_Push_to_DockerRegistry
+                  spec:
+                    connectorRef: dockerhub
+                    repo: pritidevops/healet-harness
+                    tags:
+                      - latest
         variables:
           - name: WORKSPACE
             type: String
