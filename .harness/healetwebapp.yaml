@@ -12,7 +12,7 @@ pipeline:
         build: <+input>
   stages:
     - stage:
-        name: sonar
+        name: Static Analysis
         identifier: sonar
         description: ""
         type: CI
@@ -61,18 +61,44 @@ pipeline:
                       ssl: true
                     tool:
                       project_key: harness-webapp
-              - step:
-                  type: BuildAndPushDockerRegistry
-                  name: Build  And Push to DockerRegistry
-                  identifier: Build_And_Push_to_DockerRegistry
-                  spec:
-                    connectorRef: dockerhub
-                    repo: pritidevops/healet-harness
-                    tags:
-                      - latest
+          caching:
+            enabled: false
+            paths: []
+          buildIntelligence:
+            enabled: false
         variables:
           - name: WORKSPACE
             type: String
             description: ""
             required: false
             value: /harness-fixed-workspace
+    - stage:
+        name: Docker Build and Push
+        identifier: Docker_Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry
+                  identifier: BuildAndPushDockerRegistry
+                  spec:
+                    connectorRef: dockerhub
+                    repo: pritidevops/healet-harness
+                    tags:
+                      - latest
+                    caching: true
+          caching:
+            enabled: false
+            paths: []
+          buildIntelligence:
+            enabled: false
