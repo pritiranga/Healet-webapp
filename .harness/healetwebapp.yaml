@@ -33,7 +33,7 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
-                      sudo workspace= $(pwd)
+                      workspace= $(pwd)
                       sudo export workspace
                       echo workspace
                       ls -ltr
