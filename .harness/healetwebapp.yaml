@@ -36,6 +36,7 @@ pipeline:
                         config: default
                         target:
                           type: repository
+                          workspace: /harness-t_er7mnMSgiIKj-up_TRdQ
                           detection: auto
                         advanced:
                           log:
