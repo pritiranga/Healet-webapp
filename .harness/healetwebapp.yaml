@@ -51,4 +51,4 @@ pipeline:
                       identifier: Run_1
                       spec:
                         shell: Sh
-                        command: pwd
+                        command: pwd -ltr
