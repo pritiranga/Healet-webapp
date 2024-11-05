@@ -50,7 +50,7 @@ pipeline:
                     config: default
                     target:
                       type: repository
-                      workspace: /harness-*
+                      workspace: <+pipeline.stages.sonar.spec.execution.steps.Run_1.output.outputVariables.ws>
                       detection: auto
                     advanced:
                       log:
