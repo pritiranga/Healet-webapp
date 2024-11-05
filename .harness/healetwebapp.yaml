@@ -26,20 +26,28 @@ pipeline:
             spec: {}
           execution:
             steps:
-              - step:
-                  type: Sonarqube
-                  name: Sonarqube
-                  identifier: Sonarqube
-                  spec:
-                    mode: orchestration
-                    config: default
-                    target:
-                      type: repository
-                      detection: auto
-                    advanced:
-                      log:
-                        level: info
-                    auth:
-                      access_token: sqp_585e41ba240422e3aef6e8ce9ff44ef5212a91ba
-                      domain: http://13.50.246.10:9000
-                      ssl: true
+              - parallel:
+                  - step:
+                      type: Sonarqube
+                      name: Sonarqube
+                      identifier: Sonarqube
+                      spec:
+                        mode: orchestration
+                        config: default
+                        target:
+                          type: repository
+                          detection: auto
+                        advanced:
+                          log:
+                            level: info
+                        auth:
+                          access_token: sqp_585e41ba240422e3aef6e8ce9ff44ef5212a91ba
+                          domain: http://13.50.246.10:9000
+                          ssl: true
+                  - step:
+                      type: Run
+                      name: Run_1
+                      identifier: Run_1
+                      spec:
+                        shell: Sh
+                        command: pwd
