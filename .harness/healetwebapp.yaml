@@ -50,7 +50,6 @@ pipeline:
                     config: default
                     target:
                       type: repository
-                      workspace: ${WORKSPACE}
                       detection: auto
                     advanced:
                       log:
