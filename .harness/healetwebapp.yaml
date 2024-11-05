@@ -26,31 +26,36 @@ pipeline:
             spec: {}
           execution:
             steps:
-              - parallel:
-                  - step:
-                      type: Sonarqube
-                      name: Sonarqube
-                      identifier: Sonarqube
-                      spec:
-                        mode: orchestration
-                        config: default
-                        target:
-                          type: repository
-                          workspace: /harness-*
-                          detection: auto
-                        advanced:
-                          log:
-                            level: info
-                        auth:
-                          access_token: sqp_585e41ba240422e3aef6e8ce9ff44ef5212a91ba
-                          domain: http://13.50.246.10:9000
-                          ssl: true
-                  - step:
-                      type: Run
-                      name: Run_1
-                      identifier: Run_1
-                      spec:
-                        shell: Sh
-                        command: |-
-                          pwd 
-                          ls -ltr
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: |-
+                      workspace= $(pwd)
+                      export workspace
+                      echo workspace
+                      ls -ltr
+                    outputVariables:
+                      - name: ws
+                        type: String
+                        value: workspace
+              - step:
+                  type: Sonarqube
+                  name: Sonarqube
+                  identifier: Sonarqube
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: repository
+                      workspace: /harness-*
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                    auth:
+                      access_token: sqp_585e41ba240422e3aef6e8ce9ff44ef5212a91ba
+                      domain: http://13.50.246.10:9000
+                      ssl: true
