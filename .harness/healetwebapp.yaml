@@ -50,7 +50,7 @@ pipeline:
                     config: default
                     target:
                       type: repository
-                      workspace: <+pipeline.stages.sonar.spec.execution.steps.Run_1.output.outputVariables.ws>
+                      workspace: WORKSPACE
                       detection: auto
                     advanced:
                       log:
@@ -61,3 +61,9 @@ pipeline:
                       ssl: true
                     tool:
                       project_key: harness-webapp
+        variables:
+          - name: WORKSPACE
+            type: String
+            description: ""
+            required: false
+            value: /harness-fixed-workspace
