@@ -169,13 +169,8 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
-                      # Retrieve Docker Hub credentials from Harness secrets
-                      DOCKER_USERNAME=$(harness.getSecret('dockerhub-creds.username'))
-                      DOCKER_PASSWORD=$(harness.getSecret('dockerhub-creds.password'))
-
-                      # Perform Docker login
+                      # Perform Docker login using environment variables for secrets
                       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-
                       sudo docker push pritidevops/harness-healet:latest
         variables:
           - name: username
