@@ -134,5 +134,5 @@ pipeline:
                     image:
                       type: docker_v2
                       tag: latest
-                      name: pritidevops/harness-webapp
+                      name: pritidevops/healet-harness
                       domain: docker.io
