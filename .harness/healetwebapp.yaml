@@ -73,7 +73,7 @@ pipeline:
             required: false
             value: /harness-fixed-workspace
     - stage:
-        name: Docker Build and Push
+        name: Docker Build
         identifier: Docker_Build
         description: ""
         type: CI
@@ -147,3 +147,25 @@ pipeline:
                       tag: latest
                       name: pritidevops/healet-harness
                       domain: docker.io
+    - stage:
+        name: Pushing Docker image to DockerHub
+        identifier: Pushing_Docker_image_to_DockerHub
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Pushing to dockerhub
+                  identifier: Pushing_to_dockerhub
+                  spec:
+                    shell: Sh
+                    command: sudo docker push pritidevops/harness-healet:latest
