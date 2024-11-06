@@ -100,7 +100,7 @@ pipeline:
                   identifier: Docker_image_tagging
                   spec:
                     shell: Sh
-                    command: sudo docker tag harness-healet:latest pritidevops/harness-healeq:latest
+                    command: sudo docker tag harness-healet:latest pritidevops/harness-healet:latest
               - step:
                   type: Run
                   name: Remove un-necessary images
