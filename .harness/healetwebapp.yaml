@@ -169,14 +169,12 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
-                      # Using a pipeline variable for username
-                      echo "Logging into Docker with username: $DOCKER_USERNAME"
+                      # Access the Docker Hub username and password from Harness pipeline variables and secrets
+                      DOCKER_USERNAME=$DOCKER_USERNAME  # Pipeline variable for username
+                      DOCKER_PASSWORD=$(harness_secret dockerhub-password)  # Secret for password
 
-                      # Access Docker Hub password stored in a Harness secret
-                      DOCKER_PASSWORD=$harness_secret.dockerhub-password
-
-                      # Docker login without hardcoding
-                      echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+                      # Login to Docker Hub non-interactively
+                      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
                       sudo docker push pritidevops/harness-healet:latest
         variables:
