@@ -102,3 +102,37 @@ pipeline:
             paths: []
           buildIntelligence:
             enabled: false
+    - stage:
+        name: Docker image scanning
+        identifier: Docker_image_scanning
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: AquaTrivy
+                  name: AquaTrivy
+                  identifier: AquaTrivy
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: container
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                    privileged: true
+                    image:
+                      type: docker_v2
+                      tag: latest
+                      name: pritidevops/harness-webapp
+                      domain: docker.io
