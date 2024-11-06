@@ -93,7 +93,7 @@ pipeline:
                   identifier: Docker_Build
                   spec:
                     shell: Sh
-                    command: sudo docker build -t harness-healet:latest
+                    command: sudo docker build -t harness-healet:latest .
               - step:
                   type: Run
                   name: Docker image tagging
