@@ -83,20 +83,31 @@ pipeline:
             os: Linux
             arch: Amd64
           runtime:
-            type: Cloud
+            type: Docker
             spec: {}
           execution:
             steps:
               - step:
-                  type: BuildAndPushDockerRegistry
-                  name: BuildAndPushDockerRegistry
-                  identifier: BuildAndPushDockerRegistry
+                  type: Run
+                  name: Docker Build
+                  identifier: Docker_Build
                   spec:
-                    connectorRef: dockerhub
-                    repo: pritidevops/healet-harness
-                    tags:
-                      - latest
-                    caching: true
+                    shell: Sh
+                    command: sudo docker build -t harness-healet:latest
+              - step:
+                  type: Run
+                  name: Docker image tagging
+                  identifier: Docker_image_tagging
+                  spec:
+                    shell: Sh
+                    command: sudo docker tag harness-healet:latest pritidevops/harness-healeq:latest
+              - step:
+                  type: Run
+                  name: Remove un-necessary images
+                  identifier: Remove_unnecessary_images
+                  spec:
+                    shell: Sh
+                    command: sudo docker rmi -f harness-healet:latest
           caching:
             enabled: false
             paths: []
