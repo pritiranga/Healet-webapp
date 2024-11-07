@@ -169,9 +169,7 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
-                      # Log in to Docker Hub
-                      echo "${DOCKERHUB_PASSWORD}" | sudo docker login --username "${DOCKERHUB_USERNAME}" --password-stdin
-
+                      docker login "${HARNESS_REGISTRY}" -u "${HARNESS_USERNAME}" -p "${HARNESS_PASSWORD}
                       # Push the image
                       sudo docker push "${DOCKERHUB_USERNAME}/harness-healet:latest"
         variables:
