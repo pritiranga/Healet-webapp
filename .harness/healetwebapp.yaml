@@ -169,9 +169,11 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
-                      # Perform Docker login using environment variables for secrets
-                      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-                      sudo docker push pritidevops/harness-healet:latest
+                      # Log in to Docker Hub
+                      echo "${DOCKERHUB_PASSWORD}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
+
+                      #Push the image
+                      sudo docker push ${DOCKERHUB_USERNAME}/harness-healet:latest
         variables:
           - name: username
             type: String
