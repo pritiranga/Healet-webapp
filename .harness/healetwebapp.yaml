@@ -170,10 +170,10 @@ pipeline:
                     shell: Sh
                     command: |-
                       # Log in to Docker Hub
-                      echo "${DOCKERHUB_PASSWORD}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
+                      echo "${DOCKERHUB_PASSWORD}" | sudo docker login --username "${DOCKERHUB_USERNAME}" --password-stdin
 
-                      #Push the image
-                      sudo docker push ${DOCKERHUB_USERNAME}/harness-healet:latest
+                      # Push the image
+                      sudo docker push "${DOCKERHUB_USERNAME}/harness-healet:latest"
         variables:
           - name: username
             type: String
