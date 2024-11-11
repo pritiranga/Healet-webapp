@@ -176,8 +176,8 @@ pipeline:
                     shell: Sh
                     command: |-
                       echo "<+secrets.getValue("DOCKERHUB_USERNAME")>"
-                      echo "<+secrets.getValue("DOCKERHUB_PASSWORD")>"
-                      sudo echo "<+secrets.getValue("DOCKERHUB_PASSWORD")>" | docker login -u "<+secrets.getValue("DOCKERHUB_USERNAME)>" --password-stdin
+                      echo "<+secrets.getValue("DOCKERHUB_PAT")>"
+                      sudo echo "<+secrets.getValue("DOCKERHUB_PAT")>" | docker login -u "<+secrets.getValue("DOCKERHUB_USERNAME)>" --password-stdin
                       # Push the image
                       sudo docker push "<+secrets.getValue("DOCKERHUB_USERNAME")>/harness-healet:latest"
                     envVariables:
