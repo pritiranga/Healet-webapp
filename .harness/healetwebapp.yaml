@@ -72,6 +72,8 @@ pipeline:
             description: ""
             required: false
             value: /harness-fixed-workspace
+        delegateSelectors:
+          - docker-delegate
     - stage:
         name: Docker Build
         identifier: Docker_Build
