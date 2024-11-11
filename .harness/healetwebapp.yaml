@@ -176,9 +176,10 @@ pipeline:
                     shell: Sh
                     command: |-
                       echo "<+stage.variables.DOCKER_USER>"
-                      echo "<+stage.variables.DOCKER_PASSWORD>" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+                      echo "<+stage.variables.DOCKER_PASSWORD>"
+                      sudo echo "<+stage.variables.DOCKER_PASSWORD>" | docker login -u "<+stage.variables.DOCKER_USER>" --password-stdin
                       # Push the image
-                      sudo docker push "${DOCKERHUB_USERNAME}/harness-healet:latest"
+                      sudo docker push "<+stage.variables.DOCKER_USER>/harness-healet:latest"
                     envVariables:
                       DOCKERHUB_USERNAME: pritidevops
                       DOCKERHUB_PASSWORD: Xperts@3619
