@@ -115,6 +115,8 @@ pipeline:
             paths: []
           buildIntelligence:
             enabled: false
+        delegateSelectors:
+          - docker-delegate
     - stage:
         name: Docker image scanning
         identifier: Docker_image_scanning
@@ -149,6 +151,8 @@ pipeline:
                       tag: latest
                       name: pritidevops/healet-harness
                       domain: docker.io
+        delegateSelectors:
+          - docker-delegate
     - stage:
         name: Pushing Docker image to DockerHub
         identifier: Pushing_Docker_image_to_DockerHub
@@ -190,3 +194,5 @@ pipeline:
             description: ""
             required: false
             value: Xperts@3619
+        delegateSelectors:
+          - docker-delegate
