@@ -175,9 +175,8 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
-                      printenv
-                      echo "$DOCKER_USER"
-                      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                      echo "${DOCKER_USER}"
+                      echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
                       # Push the image
                       sudo docker push "${DOCKERHUB_USERNAME}/harness-healet:latest"
                     envVariables:
