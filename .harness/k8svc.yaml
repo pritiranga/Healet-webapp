@@ -1,0 +1,5 @@
+service:
+  name: k8-svc
+  identifier: k8svc
+  orgIdentifier: default
+  projectIdentifier: default_project
