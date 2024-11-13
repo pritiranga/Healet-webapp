@@ -1,0 +1,13 @@
+infrastructureDefinition:
+  name: k8
+  identifier: k8
+  orgIdentifier: default
+  projectIdentifier: default_project
+  environmentRef: preprod
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: k8connector
+    namespace: default
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: false
