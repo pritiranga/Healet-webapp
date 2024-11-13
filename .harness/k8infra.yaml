@@ -1,0 +1,13 @@
+infrastructureDefinition:
+  name: k8-infra
+  identifier: k8infra
+  orgIdentifier: default
+  projectIdentifier: default_project
+  environmentRef: staging
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: k8connector
+    namespace: default
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: false
