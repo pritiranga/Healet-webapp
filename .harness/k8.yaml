@@ -3,3 +3,22 @@ service:
   identifier: k8
   orgIdentifier: default
   projectIdentifier: default_project
+  serviceDefinition:
+    spec:
+      manifests:
+        - manifest:
+            identifier: deployapp
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: github
+                  gitFetchType: Branch
+                  paths:
+                    - deployapp.yaml
+                  repoName: pritiranga/Healet-webapp
+                  branch: harness
+              skipResourceVersioning: false
+              enableDeclarativeRollback: false
+    type: Kubernetes
