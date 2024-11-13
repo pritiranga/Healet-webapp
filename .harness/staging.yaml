@@ -1,6 +1,0 @@
-environment:
-  name: staging
-  identifier: staging
-  orgIdentifier: default
-  projectIdentifier: default_project
-  type: PreProduction
