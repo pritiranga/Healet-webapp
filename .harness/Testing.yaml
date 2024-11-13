@@ -1,6 +1,0 @@
-environment:
-  name: Testing
-  identifier: Testing
-  orgIdentifier: default
-  projectIdentifier: default_project
-  type: PreProduction
