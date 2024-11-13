@@ -73,7 +73,7 @@ pipeline:
             required: false
             value: /harness-fixed-workspace
         delegateSelectors:
-          - docker-delegate
+          - s-delegate
     - stage:
         name: Docker Build
         identifier: Docker_Build
@@ -116,7 +116,7 @@ pipeline:
           buildIntelligence:
             enabled: false
         delegateSelectors:
-          - docker-delegate
+          - s-delegate
     - stage:
         name: Docker image scanning
         identifier: Docker_image_scanning
@@ -152,7 +152,7 @@ pipeline:
                       name: pritidevops/healet-harness
                       domain: docker.io
         delegateSelectors:
-          - docker-delegate
+          - s-delegate
     - stage:
         name: Pushing Docker image to DockerHub
         identifier: Pushing_Docker_image_to_DockerHub
@@ -203,4 +203,4 @@ pipeline:
             required: false
             value: Xperts@3619
         delegateSelectors:
-          - docker-delegate
+          - s-delegate
