@@ -205,6 +205,29 @@ pipeline:
         delegateSelectors:
           - s-delegate
     - stage:
+        name: Creating environments
+        identifier: Creating_environments
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: creating env staging and prod on eks
+                  identifier: creating_env_staging_and_prod_on_eks
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: kubectl create ns staging prod
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
+    - stage:
         name: pre-prod
         identifier: preprod
         description: ""
