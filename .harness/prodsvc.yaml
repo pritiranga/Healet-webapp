@@ -1,0 +1,5 @@
+service:
+  name: prod-svc
+  identifier: prodsvc
+  orgIdentifier: default
+  projectIdentifier: default_project
