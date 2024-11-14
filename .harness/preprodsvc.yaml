@@ -1,5 +1,0 @@
-service:
-  name: pre-prod-svc
-  identifier: preprodsvc
-  orgIdentifier: default
-  projectIdentifier: default_project
