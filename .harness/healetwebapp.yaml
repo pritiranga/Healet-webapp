@@ -296,3 +296,45 @@ pipeline:
                     approverInputs: []
                   timeout: 1d
         tags: {}
+    - stage:
+        name: prod
+        identifier: prod
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: prodsvc
+          environments:
+            metadata:
+              parallel: false
+            values:
+              - environmentRef: prodenv
+                deployToAll: false
+                infrastructureDefinitions:
+                  - identifier: prodinfra
+          execution:
+            steps:
+              - step:
+                  name: Rollout Deployment
+                  identifier: rolloutDeployment
+                  type: K8sRollingDeploy
+                  timeout: 10m
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: false
+            rollbackSteps:
+              - step:
+                  name: Rollback Rollout Deployment
+                  identifier: rollbackRolloutDeployment
+                  type: K8sRollingRollback
+                  timeout: 10m
+                  spec:
+                    pruningEnabled: false
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
