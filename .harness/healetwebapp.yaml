@@ -239,12 +239,12 @@ pipeline:
         spec:
           deploymentType: Kubernetes
           service:
-            serviceRef: k8svc
+            serviceRef: preprodsvc
           environment:
-            environmentRef: staging
+            environmentRef: preprodenv
             deployToAll: false
             infrastructureDefinitions:
-              - identifier: k8infra
+              - identifier: preprodinfra
           execution:
             steps:
               - step:
@@ -272,3 +272,27 @@ pipeline:
                 type: StageRollback
         delegateSelectors:
           - kubernetes-delegate
+    - stage:
+        name: Approval
+        identifier: Approval
+        description: ""
+        type: Approval
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: HarnessApproval
+                  name: HarnessApproval
+                  identifier: HarnessApproval
+                  spec:
+                    approvalMessage: Please review the following information and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    isAutoRejectEnabled: false
+                    approvers:
+                      userGroups:
+                        - account._account_all_users
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                    approverInputs: []
+                  timeout: 1d
+        tags: {}
