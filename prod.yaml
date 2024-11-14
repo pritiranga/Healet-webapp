@@ -17,7 +17,7 @@ spec:
         - name: healetapp
           image: pritidevops/harness-healet
           ports:
-            - containerPort: 9090
+            - containerPort: 80
 
 ---
 
@@ -31,6 +31,6 @@ spec:
   selector:
     app: web
   ports:
-    - port: 9090
-      targetPort: 9090
+    - port: 80
+      targetPort: 80
       nodePort: 30002
