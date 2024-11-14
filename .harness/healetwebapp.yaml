@@ -227,6 +227,8 @@ pipeline:
                     outputVariables: []
                   timeout: 10m
         tags: {}
+        delegateSelectors:
+          - kubernetes-delegate
     - stage:
         name: pre-prod
         identifier: preprod
