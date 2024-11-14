@@ -3,3 +3,22 @@ service:
   identifier: preprodsvc
   orgIdentifier: default
   projectIdentifier: default_project
+  serviceDefinition:
+    spec:
+      manifests:
+        - manifest:
+            identifier: preproddeployement
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: github
+                  gitFetchType: Branch
+                  paths:
+                    - staging.yaml
+                  repoName: Healet-webapp
+                  branch: harness
+              skipResourceVersioning: false
+              enableDeclarativeRollback: false
+    type: Kubernetes
