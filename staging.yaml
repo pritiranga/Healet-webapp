@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: healet-deploy
-  namespace: default
+  namespace: staging
 spec:
   replicas: 2
   selector:
@@ -14,7 +14,7 @@ spec:
         app: web
     spec:
       containers:
-        - name: harness-healet
+        - name: healetapp
           image: pritidevops/harness-healet
           ports:
             - containerPort: 9090
@@ -25,10 +25,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: healet-service
+  namespace: staging
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: web
   ports:
-    - port: 80           # External port to expose the service
-      targetPort: 9090    # Port your application listens on
+    - port: 9090
+      targetPort: 9090
+      nodePort: 30001
