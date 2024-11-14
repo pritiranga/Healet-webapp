@@ -222,9 +222,11 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: |-
-                          kubectl create ns staging
-                          kubectl create ns prod
+                        script: |
+                          # Check and create namespaces if they do not exist
+                          for namespace in "staging" "prod"; do
+                              kubectl get namespace "$namespace" >/dev/null 2>&1 || kubectl create namespace "$namespace"
+                          done
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
