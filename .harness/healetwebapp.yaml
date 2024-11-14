@@ -1,0 +1,247 @@
+pipeline:
+  name: healet-webapp
+  identifier: healetwebapp
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github
+        repoName: Healet-webapp
+        build: <+input>
+  stages:
+    - stage:
+        name: Static Analysis
+        identifier: sonar
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Passing Workspace variable to sonarqube
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: |-
+                      workspace=$(pwd)
+                      export workspace
+                      echo "$workspace"
+                      ls -ltr "$workspace"
+                    outputVariables:
+                      - name: ws
+                        type: String
+                        value: workspace
+              - step:
+                  type: Sonarqube
+                  name: Sonarqube
+                  identifier: Sonarqube
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: repository
+                      workspace: <+pipeline.stages.sonar.spec.execution.steps.Run_1.output.outputVariables.ws>
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                    auth:
+                      access_token: sqp_58f42bcc49835ce2389a844cef6ae0f64ee24729
+                      domain: http://16.16.170.39:9000
+                      ssl: true
+                    tool:
+                      project_key: harness-webapp
+          caching:
+            enabled: false
+            paths: []
+          buildIntelligence:
+            enabled: false
+        variables:
+          - name: WORKSPACE
+            type: String
+            description: ""
+            required: false
+            value: /harness-fixed-workspace
+        delegateSelectors:
+          - s-delegate
+    - stage:
+        name: Docker Build
+        identifier: Docker_Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Docker Build
+                  identifier: Docker_Build
+                  spec:
+                    shell: Sh
+                    command: sudo docker build -t harness-healet:latest .
+              - step:
+                  type: Run
+                  name: Docker image tagging
+                  identifier: Docker_image_tagging
+                  spec:
+                    shell: Sh
+                    command: sudo docker tag harness-healet:latest pritidevops/harness-healet:latest
+              - step:
+                  type: Run
+                  name: Remove un-necessary images
+                  identifier: Remove_unnecessary_images
+                  spec:
+                    shell: Sh
+                    command: sudo docker rmi -f harness-healet:latest
+          caching:
+            enabled: false
+            paths: []
+          buildIntelligence:
+            enabled: false
+        delegateSelectors:
+          - s-delegate
+    - stage:
+        name: Docker image scanning
+        identifier: Docker_image_scanning
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: AquaTrivy
+                  name: AquaTrivy
+                  identifier: AquaTrivy
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: container
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                    privileged: true
+                    image:
+                      type: docker_v2
+                      tag: latest
+                      name: pritidevops/healet-harness
+                      domain: docker.io
+        delegateSelectors:
+          - s-delegate
+    - stage:
+        name: Pushing Docker image to DockerHub
+        identifier: Pushing_Docker_image_to_DockerHub
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Pushing to dockerhub
+                  identifier: Pushing_to_dockerhub
+                  spec:
+                    shell: Sh
+                    command: |-
+                      sudo echo "<+secrets.getValue("docker_pat")>" | docker login -u "<+secrets.getValue("docker_user")>" --password-stdin
+                      # Push the image
+                      sudo docker push "<+secrets.getValue("docker_user")>/harness-healet:latest"
+                    envVariables:
+                      DOCKERHUB_USERNAME: pritidevops
+                      DOCKERHUB_PASSWORD: Xperts@3619
+        variables:
+          - name: username
+            type: String
+            description: ""
+            required: true
+            value: pritidevops
+          - name: password
+            type: String
+            description: ""
+            required: false
+            value: Xperts@3619
+          - name: DOCKER_USER
+            type: String
+            description: ""
+            required: false
+            value: pritidevops
+          - name: DOCKER_PASSWORD
+            type: String
+            description: ""
+            required: false
+            value: Xperts@3619
+        delegateSelectors:
+          - s-delegate
+    - stage:
+        name: pre-prod
+        identifier: preprod
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: k8svc
+          environment:
+            environmentRef: staging
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: k8infra
+          execution:
+            steps:
+              - step:
+                  name: Rollout Deployment
+                  identifier: rolloutDeployment
+                  type: K8sRollingDeploy
+                  timeout: 10m
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: false
+            rollbackSteps:
+              - step:
+                  name: Rollback Rollout Deployment
+                  identifier: rollbackRolloutDeployment
+                  type: K8sRollingRollback
+                  timeout: 10m
+                  spec:
+                    pruningEnabled: false
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
+        delegateSelectors:
+          - kubernetes-delegate
