@@ -1,0 +1,13 @@
+infrastructureDefinition:
+  name: prod-infra
+  identifier: prodinfra
+  orgIdentifier: default
+  projectIdentifier: default_project
+  environmentRef: prodenv
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: k8connector
+    namespace: prod
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: false
