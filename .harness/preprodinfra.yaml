@@ -1,0 +1,13 @@
+infrastructureDefinition:
+  name: pre-prod-infra
+  identifier: preprodinfra
+  orgIdentifier: default
+  projectIdentifier: default_project
+  environmentRef: preprodenv
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: k8connector
+    namespace: staging
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: false
