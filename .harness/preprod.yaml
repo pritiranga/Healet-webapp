@@ -1,0 +1,13 @@
+infrastructureDefinition:
+  name: pre-prod
+  identifier: preprod
+  orgIdentifier: default
+  projectIdentifier: default_project
+  environmentRef: staging
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: k8connector
+    namespace: staging
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: false
