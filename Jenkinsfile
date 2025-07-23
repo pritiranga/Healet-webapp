@@ -13,7 +13,7 @@ pipeline {
 	  steps {
 	    echo "Building images using Podman"
             sh '''
-              podman build -t durgatask:latest .
+              sudo podman build -t durgatask:latest .
               podman tag durgatask:latest docker.io/pritidevops/durgatask:latest
             '''
           }
