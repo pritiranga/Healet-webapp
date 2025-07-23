@@ -2,6 +2,13 @@ pipeline {
     agent any
 
     stages {
+        stage('Clone Source Code') {
+            steps {
+                echo "Cloning code"
+                checkout scm
+            }
+        }
+/*        
         stage('Build') {
             steps {
                 script {
@@ -63,6 +70,6 @@ pipeline {
                     )])
                 }
             }
-        }
+        } */
     }
 }
