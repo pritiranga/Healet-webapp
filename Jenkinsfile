@@ -3,17 +3,51 @@ pipeline {
 
     stages {
         stage('Clone Source Code') {
-            steps {
-                echo "Cloning code"
-                sh '''
-                    mkdir /home/ubuntu/durga
-                    cd /home/ubuntu/durga
-                '''
-                dir ('durga') {
-                    checkout scm
-                }
+	  steps {
+            echo "Cloning code"
+            sh '''
+                  mkdir /home/ubuntu/durga
+                  cd /home/ubuntu/durga
+            '''
+            dir ('durga') {
+                checkout scm
             }
+          }
         }
+
+	stage('Build') {
+	  steps {
+	    echo "Building images using Podman"
+            sh '''
+              cd /home/ubuntu/durga
+              podman build -t durgatask:latest .
+              podman tag ${IMAGE_NAME} docker.io/${DOCKERHUB_REPO}:${DOCKERHUB_TAG}
+              podman tag durgatask:latest docker.io/pritidevops/durgatask:latest
+            '''
+          }
+        }
+         
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*        
         stage('Build') {
             steps {
