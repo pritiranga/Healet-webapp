@@ -28,7 +28,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
-                        echo $PASSWORD | podman login --username $USERNAME --password-stdin docker.io
+                        echo $PASSWORD | sudo podman login --username $USERNAME --password-stdin docker.io
                     '''
                 }
             }
