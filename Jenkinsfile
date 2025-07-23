@@ -21,13 +21,12 @@ pipeline {
             sh '''
               cd /home/ubuntu/durga
               podman build -t durgatask:latest .
-              podman tag ${IMAGE_NAME} docker.io/${DOCKERHUB_REPO}:${DOCKERHUB_TAG}
               podman tag durgatask:latest docker.io/pritidevops/durgatask:latest
             '''
           }
         }
          
-   }
+    }
 }
 
 
