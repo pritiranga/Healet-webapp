@@ -5,6 +5,8 @@ pipeline {
         stage('Clone Source Code') {
             steps {
                 echo "Cloning code"
+                mkdir durga
+                cd * durga
                 checkout scm
             }
         }
