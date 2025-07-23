@@ -6,8 +6,8 @@ pipeline {
             steps {
                 echo "Cloning code"
                 sh '''
-                    mkdir durga
-                    cd durga
+                    mkdir /home/ubuntu/durga
+                    cd /home/ubuntu/durga
                 '''
                 dir ('durga') {
                     checkout scm
