@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo "Cloning code"
                 mkdir durga
-                cd * durga
+                cd durga
                 checkout scm
             }
         }
