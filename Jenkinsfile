@@ -48,7 +48,7 @@ pipeline {
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
-                            configName: 'k8s-m',
+                            configName: 'k8-m',
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'deploy.sh',
