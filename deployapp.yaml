@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: harness-healet
-          image: pritidevops/harness-healet
+          image: pritidevops/durgatask
           ports:
             - containerPort: 9090
 
