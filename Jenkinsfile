@@ -52,7 +52,7 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'deploy.sh',
-                                    execCommand: 'chmod +x deploy.sh && ./deploy.sh'
+                                    execCommand: 'bash deploy.sh'
                                 )
                             ]
                         )
